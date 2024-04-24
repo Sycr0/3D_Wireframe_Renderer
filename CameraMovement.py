@@ -1,10 +1,8 @@
 from SceneManager import *
 import keyboard
-import time
-
 
 def Check(fpsCap: int):
-    moveSpeed = 250 / fpsCap
+    moveSpeed = 100
     currentCam = CurrentScene.camera
     pos = currentCam.transform.position
 
@@ -23,8 +21,8 @@ def Check(fpsCap: int):
         print("Q Key Pressed")
 
     if keyboard.is_pressed('w'):
-        pos.z -= moveSpeed / 5
+        pos.z -= moveSpeed / 500
         print("w Key Pressed")
     if keyboard.is_pressed('s'):
-        pos.z += moveSpeed / 5
+        pos.z += moveSpeed / 500
         print("S Key Pressed")

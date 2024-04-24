@@ -24,26 +24,6 @@ def BlankLine(amount: int):
 def Start():
     CreateModels()
 
-def RenderObject(object1: SceneManager.GameObject):
-    ProjX, ProjY = object1.ProjectedX, object1.ProjectedY
-
-    i = 0
-    while i<len(ProjX):
-        pg.draw.circle(surface=screen, color="blue", center=[ProjX[i],ProjY[i]], radius=5, width=0)
-        print("Vertex Draw at: " + str(ProjX[i]),str(ProjY[i]))
-        i += 1
-
-    i = 0
-    while i<len(object1.EdgeTable):
-        Edge1, Edge2 = object1.EdgeTable[i]
-        pg.draw.line(surface=screen, color="blue", start_pos=[ProjX[Edge1], ProjY[Edge1]], end_pos=[ProjX[Edge2], ProjY[Edge2]], width=2)
-        print("Line drawn from:  " + str(ProjX[Edge1]) + ", " + str(ProjY[Edge1]) + " to:  " + str(ProjX[Edge2]) + ", " + str(ProjY[Edge2]))
-        i += 1
-
-    i = 0
-    while i<len(object1.FaceTable):
-        break
-
 def CreateModels():
     cube = SceneManager.CurrentScene.NewGameObject(Name="Cube",
                                             VertexTable = [[1,1,1],[1,-1,1],[-1,-1,1],[-1,1,1],[1,1,-1],[1,-1,-1],[-1,-1,-1],[-1,1,-1]],
@@ -51,7 +31,7 @@ def CreateModels():
     cube.transform.scale.x = 1000
     cube.transform.scale.y = 1000
     cube.transform.scale.z = 1000
-    cube.FaceTable = [[1,2,3,4],[5,6,7,8],]
+    cube.transform.position.z = -20
 
 def Update():
     BlankLine(5)
@@ -70,6 +50,32 @@ def Update():
     print("--------------- Rendering Complete ---------------")
     BlankLine(2)
     print("------------------------------ Update Complete - End of Tick ------------------------------")
+
+def RenderObject(object1: SceneManager.GameObject):
+    ProjX, ProjY = object1.ProjectedX, object1.ProjectedY
+
+    i = 0
+    while i<len(ProjX):
+        if ProjX[i] != 'n' and ProjY[i] != 'n':
+            print("Vertex Draw at: " + str(ProjX[i]), str(ProjY[i]))
+            pg.draw.circle(surface=screen, color="blue", center=[ProjX[i],ProjY[i]], radius=5, width=0)
+        else:
+            print("Vertex Past Near Plane")
+        i += 1
+
+    i = 0
+    while i<len(object1.EdgeTable):
+        Edge1, Edge2 = object1.EdgeTable[i]
+        if ProjX[Edge1] != "n" and ProjY[Edge1] != "n" and ProjX[Edge2] != "n" and ProjY[Edge2] != "n":
+            pg.draw.line(surface=screen, color="blue", start_pos=[ProjX[Edge1], ProjY[Edge1]], end_pos=[ProjX[Edge2], ProjY[Edge2]], width=2)
+            print("Line drawn from:  " + str(ProjX[Edge1]) + ", " + str(ProjY[Edge1]) + " to:  " + str(ProjX[Edge2]) + ", " + str(ProjY[Edge2]))
+        else:
+            print("Edge Past Near Plane")
+        i += 1
+
+    i = 0
+    while i<len(object1.FaceTable):
+        break
 
 Start()
 while running:

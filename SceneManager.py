@@ -1,9 +1,13 @@
 from MyUtils import *
+
 class GameObject:
     def __init__(self):
         # Model Values
         self.VertexTable = []
+        self.RotatedVertexTable = []
+
         self.EdgeTable = [[tuple]]
+
         self.FaceTable = []
 
         self.ProjectedX = []
@@ -14,7 +18,7 @@ class GameObject:
 
 class Camera:
     def __init__(self):
-        self.FocalLength = 300
+        self.NearPlane = 20 #Higher = Closer??
         self.FOV = 90
         self.transform = transform.__new__(transform)
         self.transform.__init__()
