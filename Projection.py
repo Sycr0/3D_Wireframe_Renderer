@@ -1,3 +1,5 @@
+import math
+
 import SceneManager
 
 def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Scene):
@@ -6,16 +8,22 @@ def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Sce
     xscale,yscale,zscale = scale
 
     FocalLength = Scene.camera.FocalLength
+    FOV = Scene.camera.FOV
 
     camx, camy, camz = Scene.camera.transform.getPosition()
+
+
 
     FinalVertices = [camx - (x * xscale + xpos), camy - (y * yscale + ypos), camz - (z * zscale + zpos)]
 
     print("Vertices for projection = " + str(FinalVertices))
 
+    angle = (FOV / 180) * math.pi
     try:
-        ProjectedX = (FocalLength * FinalVertices[0]) / (FocalLength + FinalVertices[2]) + 400
-        ProjectedY = (FocalLength * FinalVertices[1]) / (FocalLength + FinalVertices[2]) + 400
+        ProjectedX = FinalVertices[0] / (FinalVertices[2] * math.tan(angle / 2))
+        ProjectedY = FinalVertices[1] / (FinalVertices[2] * math.tan(angle / 2))
+        # ProjectedX = (FocalLength * FinalVertices[0]) / (FocalLength + FinalVertices[2]) + 400
+        # ProjectedY = (FocalLength * FinalVertices[1]) / (FocalLength + FinalVertices[2]) + 400
         return ProjectedX, ProjectedY
     except(ZeroDivisionError, ValueError):
         print("Error: ZeroDivision or Value")

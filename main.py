@@ -44,6 +44,15 @@ def RenderObject(object1: SceneManager.GameObject):
     while i<len(object1.FaceTable):
         break
 
+def CreateModels():
+    cube = SceneManager.CurrentScene.NewGameObject(Name="Cube",
+                                            VertexTable = [[1,1,1],[1,-1,1],[-1,-1,1],[-1,1,1],[1,1,-1],[1,-1,-1],[-1,-1,-1],[-1,1,-1]],
+                                            EdgeTable = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]])
+    cube.transform.scale.x = 1000
+    cube.transform.scale.y = 1000
+    cube.transform.scale.z = 1000
+    cube.FaceTable = [[1,2,3,4],[5,6,7,8],]
+
 def Update():
     BlankLine(5)
     print("------------------------------ Update Called - New Tick ------------------------------")
@@ -61,15 +70,6 @@ def Update():
     print("--------------- Rendering Complete ---------------")
     BlankLine(2)
     print("------------------------------ Update Complete - End of Tick ------------------------------")
-
-def CreateModels():
-    cube = SceneManager.CurrentScene.NewGameObject(Name="Cube",
-                                            VertexTable = [[1,1,1],[1,-1,1],[-1,-1,1],[-1,1,1],[1,1,-1],[1,-1,-1],[-1,-1,-1],[-1,1,-1]],
-                                            EdgeTable = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]])
-    cube.transform.scale.x = 80
-    cube.transform.scale.y = 80
-    cube.transform.scale.z = 80
-    cube.FaceTable = [[1,2,3,4],[5,6,7,8],]
 
 Start()
 while running:

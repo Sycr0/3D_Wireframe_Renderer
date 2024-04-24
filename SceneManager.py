@@ -15,9 +15,11 @@ class GameObject:
 class Camera:
     def __init__(self):
         self.FocalLength = 300
+        self.FOV = 90
         self.transform = transform.__new__(transform)
         self.transform.__init__()
         print("Camera Initilialised")
+
 class Scene:
     def __init__(self):
         #List of all GameObjects in scene
