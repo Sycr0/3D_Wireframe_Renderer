@@ -14,12 +14,14 @@ class GameObject:
         self.ProjectedY = []
 
         self.transform = transform.__new__(transform)
+        self.CompletedRotation = Vector3.__new__(Vector3)
+        self.CompletedRotation.__init__(0,0,0)
         print("GameObject Initilialised")
 
 class Camera:
     def __init__(self):
-        self.NearPlane = 20 #Higher = Closer??
-        self.FOV = 110
+        self.NearPlane = 10000 #Higher = Closer??
+        self.FOV = 90
         self.transform = transform.__new__(transform)
         self.transform.__init__()
         print("Camera Initilialised")
