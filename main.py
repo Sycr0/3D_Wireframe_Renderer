@@ -32,18 +32,19 @@ def CreateModels():
     cube.transform.scale.x = 100
     cube.transform.scale.y = 100
     cube.transform.scale.z = 100
-    cube.transform.position.z = -100
-
+    cube.transform.position.z = 0
+    cube.RotatedVertexTable = cube.VertexTable.copy()
 def Update():
+    cube = SceneManager.CurrentScene.GameObjects["Cube"]
     BlankLine(5)
     print("------------------------------ Update Called - New Tick ------------------------------")
     BlankLine(2)
     print("--------------- Rotation Started ---------------")
-    Projection.RotateModel(SceneManager.CurrentScene.GameObjects["Cube"], 0, 0, 0)
+    Projection.RotateModelToAngle(cube, cube.transform.rotation.x, cube.transform.rotation.y, cube.transform.rotation.z)
     print("--------------- Rotation Complete ---------------")
     BlankLine(2)
     print("--------------- Camera Movement Started ---------------")
-    CameraMovement.Check(fpsCap=fpsCap)
+    CameraMovement.Check()
     print("--------------- Camera Movement Complete ---------------")
     BlankLine(2)
     print("--------------- Projection Started ---------------")
