@@ -2,7 +2,7 @@ from SceneManager import *
 import keyboard
 
 def Check(fpsCap: int):
-    moveSpeed = 100
+    moveSpeed = 10000
     currentCam = CurrentScene.camera
     pos = currentCam.transform.position
 

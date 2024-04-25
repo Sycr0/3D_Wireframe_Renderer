@@ -36,8 +36,8 @@ def CalculateProjectedValues(GameObject: type(SceneManager.GameObject), Scene: S
     GameObject.ProjectedY = []
 
     i = 0
-    while i < len(GameObject.VertexTable):
-        x, y, z = GameObject.VertexTable[i]
+    while i < len(GameObject.RotatedVertexTable):
+        x, y, z = GameObject.RotatedVertexTable[i]
         if z < Scene.camera.transform.position.z + Scene.camera.NearPlane:
             returnX, returnY = __project(vertex=[x,y,z], position=[xpos, ypos, zpos], scale=[xscale,yscale,zscale], Scene=Scene)
             GameObject.ProjectedX.append(returnX)
@@ -61,12 +61,39 @@ def ProjectValuesInScene(_scene: SceneManager.Scene):
     print("Camera Position = ")
     print(Scene.camera.transform.getPosition())
 
-def __rotate(x: float, y: float,  xangle: float, yangle: float):
-    xr = math.cos(xangle) * x + math.cos(xangle) * x
-    yr = -math.sin(yangle) * y + math.cos(yangle) * y
+def __rotate(x, y, _angle):
+    angle = math.radians(_angle)
+    xr = (math.degrees(math.cos(angle)) * x)   -   (math.degrees(math.sin(angle)) * y)
+    yr = (math.degrees(math.sin(angle)) * x)   +   (math.degrees(math.cos(angle)) * y)
     return xr, yr
 
-def RotateModel(GameObject: SceneManager.GameObject, Scene: SceneManager.Scene):
+def RotateModel(GameObject: SceneManager.GameObject, xRotation: float, yRotation: float, zRotation: float):
+    if len(GameObject.VertexTable) == len(GameObject.RotatedVertexTable):
+        VerticesToRotate = GameObject.RotatedVertexTable.copy()
+    else:
+        VerticesToRotate = GameObject.VertexTable.copy()
+    GameObject.RotatedVertexTable.clear()
+
     i = 0
-    while i < len(GameObject.VertexTable):
-        __rotate()
+    while i < len(VerticesToRotate):
+        print(GameObject.RotatedVertexTable)
+        x = VerticesToRotate[i][0]
+        y = VerticesToRotate[i][1]
+        z = VerticesToRotate[i][2]
+
+        # X Rotation
+        y,z = __rotate(y, z, xRotation)
+
+        # Y Rotation
+        x, z = __rotate(x, z, yRotation)
+
+        # Z Rotation
+        x, y = __rotate(x, y, zRotation)
+
+        GameObject.RotatedVertexTable.append([x,y,z])
+        i += 1
+        print("Finished One Vertex")
+        print("i = " + str(i))
+
+    print("Rotated Vertex Table: ")
+    print(GameObject.RotatedVertexTable)

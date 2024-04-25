@@ -19,7 +19,7 @@ class GameObject:
 class Camera:
     def __init__(self):
         self.NearPlane = 20 #Higher = Closer??
-        self.FOV = 90
+        self.FOV = 110
         self.transform = transform.__new__(transform)
         self.transform.__init__()
         print("Camera Initilialised")
