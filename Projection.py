@@ -7,7 +7,6 @@ def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Sce
     xpos,ypos,zpos = position
     xscale,yscale,zscale = scale
 
-    FocalLength = Scene.camera.FocalLength
     FOV = Scene.camera.FOV
 
     camx, camy, camz = Scene.camera.transform.getPosition()
@@ -39,7 +38,7 @@ def CalculateProjectedValues(GameObject: type(SceneManager.GameObject), Scene: S
     i = 0
     while i < len(GameObject.VertexTable):
         x, y, z = GameObject.VertexTable[i]
-        if z < Scene.camera.NearPlane + Scene.camera.transform.position.z:
+        if z < Scene.camera.transform.position.z + Scene.camera.NearPlane:
             returnX, returnY = __project(vertex=[x,y,z], position=[xpos, ypos, zpos], scale=[xscale,yscale,zscale], Scene=Scene)
             GameObject.ProjectedX.append(returnX)
             GameObject.ProjectedY.append(returnY)
