@@ -18,3 +18,5 @@ class transform:
         return self.rotation.x, self.rotation.y, self.rotation.z
     def getScale(self):
         return self.scale.x, self.scale.y, self.scale.z
+
+

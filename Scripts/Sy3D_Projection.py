@@ -1,5 +1,5 @@
 import math
-import SceneManager
+import Sy3D_SceneManager
 
 def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Scene):
     x,y,z = vertex
@@ -24,12 +24,12 @@ def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Sce
         return 0,0
 
 
-def CalculateProjectedValues(GameObject: type(SceneManager.GameObject), Scene: SceneManager.Scene):
+def CalculateProjectedValues(GameObject: SceneManager.GameObject, Scene: SceneManager.Scene):
     Transform = GameObject.transform
     xpos,ypos,zpos = Transform.position.x, Transform.position.y, Transform.position.z
     xscale,yscale,zscale = Transform.scale.x, Transform.scale.y, Transform.scale.z
-    GameObject.ProjectedX = []
-    GameObject.ProjectedY = []
+    GameObject.ProjectedX.clear()
+    GameObject.ProjectedY.clear()
 
     print("Vertex Table" + str(GameObject.VertexTable))
     print("Rotated Vertex Table: " + str(GameObject.RotatedVertexTable))
@@ -53,10 +53,17 @@ def CalculateProjectedValues(GameObject: type(SceneManager.GameObject), Scene: S
     print(GameObject.ProjectedY)
 
 
-def ProjectValuesInScene(_scene: SceneManager.Scene):
-    Scene = SceneManager.Scenes.get(_scene)
-    for GameObject in Scene.GameObjects:
-        CalculateProjectedValues(GameObject=GameObject, Scene=_scene)
+def ProjectValuesInScene(Scene: SceneManager.Scene):
+    print(Scene.Name)
+    i = 0
+    print(len(Scene.GameObjects))
+    while i < len(Scene.GameObjects):
+        Object = list(Scene.GameObjects.values())[i]
+        print(Object.Name)
+        CalculateProjectedValues(GameObject=Object, Scene=Scene)
+        print("Calculated Projected Values for")
+        print(i)
+        i += 1
 
 def __rotate(_x, _y, _z, _pitch, _roll, _yaw):
     x, y, z = math.radians(_x), math.radians(_y), math.radians(_z)
@@ -68,7 +75,7 @@ def __rotate(_x, _y, _z, _pitch, _roll, _yaw):
 
     return math.degrees(xRotated), math.degrees(yRotated), math.degrees(zRotated)
 
-def RotateModel(VerticesToRotate, xRotation: float, yRotation: float, zRotation: float):
+def RotateVertices(VerticesToRotate, xRotation: float, yRotation: float, zRotation: float):
     FinalVertices = []
 
     i = 0
@@ -85,8 +92,23 @@ def RotateModel(VerticesToRotate, xRotation: float, yRotation: float, zRotation:
 
     return FinalVertices
 
-def RotateModelToAngle(GameObject: SceneManager.GameObject, xAngle, yAngle, zAngle):
-    VerticesToRotate = GameObject.VertexTable
+def RotateModelToAngle(GameObject: SceneManager.GameObject):
+    if GameObject.transform.rotation.x >= 360:
+        GameObject.transform.rotation.x -= 360
+    if GameObject.transform.rotation.y >= 360:
+        GameObject.transform.rotation.y -= 360
+    if GameObject.transform.rotation.z >= 360:
+        GameObject.transform.rotation.z -= 360
 
-    RotatedVertices = RotateModel(VerticesToRotate, xAngle, yAngle, zAngle)
+    VerticesToRotate = GameObject.VertexTable
+    xAngle, yAngle, zAngle = GameObject.transform.getRotation()
+
+    RotatedVertices = RotateVertices(VerticesToRotate, xAngle, yAngle, zAngle)
     GameObject.RotatedVertexTable = RotatedVertices
+
+def RotateModelsInScene(Scene: SceneManager.Scene):
+    i = 0
+    while i < len(Scene.GameObjects):
+        Object = list(Scene.GameObjects.values())[i]
+        RotateModelToAngle(GameObject=Object)
+        i += 1
