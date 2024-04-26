@@ -14,8 +14,6 @@ class GameObject:
         self.ProjectedY = []
 
         self.transform = transform.__new__(transform)
-        self.CompletedRotation = Vector3.__new__(Vector3)
-        self.CompletedRotation.__init__(0,0,0)
         print("GameObject Initilialised")
 
 class Camera:

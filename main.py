@@ -38,7 +38,10 @@ def CreateModels():
 
 def Update():
     cube = SceneManager.CurrentScene.GameObjects["Cube"]
-    cube.transform.rotation.x += 10
+    cube.transform.rotation.x += 1
+    cube.transform.rotation.y += 1
+    cube.transform.rotation.z += 1
+
     print("Cube2: " + str(cube))
     print(cube.transform.rotation.x, cube.transform.rotation.y, cube.transform.rotation.z)
     BlankLine(5)
