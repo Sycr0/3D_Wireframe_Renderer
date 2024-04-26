@@ -13,7 +13,7 @@ def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Sce
 
 
 
-    FinalVertices = [camx - (x * xscale + xpos), camy - (y * yscale + ypos), camz - (z * zscale+ zpos)]
+    FinalVertices = [camx - (x * xscale + xpos), camy - (y * yscale + ypos), camz - (z + zpos)]
 
     print("Vertices for projection = " + str(FinalVertices))
 
@@ -28,10 +28,9 @@ def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Sce
 
 
 def CalculateProjectedValues(GameObject: type(SceneManager.GameObject), Scene: SceneManager.Scene):
-    transform = GameObject.transform
-    xpos,ypos,zpos = transform.position.x, transform.position.y, transform.position.z
-    xscale,yscale,zscale = transform.scale.x, transform.scale.y, transform.scale.z
-
+    Transform = GameObject.transform
+    xpos,ypos,zpos = Transform.position.x, Transform.position.y, Transform.position.z
+    xscale,yscale,zscale = Transform.scale.x, Transform.scale.y, Transform.scale.z
     GameObject.ProjectedX = []
     GameObject.ProjectedY = []
 
@@ -74,8 +73,8 @@ def ProjectValuesInScene(_scene: SceneManager.Scene):
 
 def __rotate(x, y, _angle):
     angle = math.radians(_angle)
-    xr = (math.degrees(math.cos(angle)) * x)   +   (math.degrees(math.sin(angle)) * y)
-    yr = (math.degrees(-math.sin(angle)) * x)   +   (math.degrees(math.cos(angle)) * y)
+    xr = (math.degrees(math.cos(angle)) * x)   -   (math.degrees(math.sin(angle)) * y)
+    yr = (math.degrees(math.sin(angle)) * x)   +   (math.degrees(math.cos(angle)) * y)
     return xr, yr
 
 def RotateModel(VerticesToRotate, xRotation: float, yRotation: float, zRotation: float):
@@ -84,7 +83,7 @@ def RotateModel(VerticesToRotate, xRotation: float, yRotation: float, zRotation:
 
     i = 0
     while i < len(VerticesToRotate):
-        print(VerticesToRotate)
+
         x = VerticesToRotate[i][0]
         y = VerticesToRotate[i][1]
         z = VerticesToRotate[i][2]
@@ -100,27 +99,33 @@ def RotateModel(VerticesToRotate, xRotation: float, yRotation: float, zRotation:
 
         FinalVertices.append([x,y,z])
 
-        i += 1
         print("Finished One Vertex")
         print("i = " + str(i))
+        print(FinalVertices[i])
+
+        i += 1
 
     print("Rotated Vertex Table: ")
     print(FinalVertices)
 
     return FinalVertices
 
-def RotateModelToAngle(GameObject: SceneManager.GameObject, xAngle: float, yAngle: float, zAngle: float):
+def RotateModelToAngle(GameObject: SceneManager.GameObject, xAngle, yAngle, zAngle):
     completedRotation = GameObject.CompletedRotation
     xr, yr, zr = completedRotation.x, completedRotation.y, completedRotation.z
+    print("Completed Rotation: " + str([xr, yr, zr]))
+    print("Angle to Rotate to: " + str([xAngle, yAngle, zAngle]))
 
+    if xr != xAngle or yr != yAngle or zr != zAngle:
+        print("Calculating")
+        VerticesToRotate = GameObject.VertexTable
 
-    VerticesToRotate = GameObject.VertexTable
+        xAngleToRotate = xAngle - xr
+        yAngleToRotate = yAngle - yr
+        zAngleToRotate = zAngle - zr
+        print("Amount To Rotate: " + str([xAngleToRotate, yAngleToRotate, zAngleToRotate]))
 
-    xAngleToRotate = xr - xAngle
-    yAngleToRotate = yr - yAngle
-    zAngleToRotate = zr - zAngle
-
-    RotatedVertices = RotateModel(VerticesToRotate, xAngleToRotate, yAngleToRotate, zAngleToRotate)
-    GameObject.RotatedVertexTable = RotatedVertices
+        RotatedVertices = RotateModel(VerticesToRotate, xAngleToRotate, yAngleToRotate, zAngleToRotate)
+        GameObject.RotatedVertexTable = RotatedVertices
 
     GameObject.CompletedRotation.x, GameObject.CompletedRotation.y, GameObject.CompletedRotation.z = xAngle, yAngle, zAngle

@@ -29,10 +29,10 @@ def CreateModels():
     cube = SceneManager.CurrentScene.NewGameObject(Name="Cube",
                                             VertexTable = [[1,1,1],[1,-1,1],[-1,-1,1],[-1,1,1],[1,1,-1],[1,-1,-1],[-1,-1,-1],[-1,1,-1]],
                                             EdgeTable = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]])
-    cube.transform.scale.x = 100
-    cube.transform.scale.y = 100
-    cube.transform.scale.z = 100
-    cube.transform.position.z = 0
+    cube.transform.scale.x = 20
+    cube.transform.scale.y = 20
+    cube.transform.scale.z = 10
+    cube.transform.position.z = -20
     cube.RotatedVertexTable = cube.VertexTable.copy()
 def Update():
     cube = SceneManager.CurrentScene.GameObjects["Cube"]
