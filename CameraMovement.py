@@ -1,6 +1,7 @@
 from SceneManager import *
 import keyboard
 
+#Moves the camera :O
 def Check():
     moveSpeed = 50
     currentCam = CurrentScene.camera
