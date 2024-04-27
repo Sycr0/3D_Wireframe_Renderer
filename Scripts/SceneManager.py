@@ -1,8 +1,10 @@
 from Scripts.MyUtils import *
+import ObjConverter
 
 class GameObject:
     def __init__(self):
         self.Name = ""
+        self.ModelFileName = ""
 
         # Model Values
         self.VertexTable = []
@@ -36,15 +38,17 @@ class Scene:
         self.camera.__init__()
         print("Scene Initilialised")
 
-    def NewGameObject(self, Name: str, VertexTable: list, FaceTable: list):
+    def NewGameObject(self, Name: str, ModelFileName: str):
         object1 = GameObject.__new__(GameObject)
         self.GameObjects[Name] = object1
         object1.__init__()
 
         object1.Name = Name
+        object1.ModelFileName = ModelFileName
 
-        object1.VertexTable = VertexTable
-        object1.FaceTable = FaceTable
+        object1.VertexTable, object1.FaceTable = ObjConverter.GetVerticesInFile(object1.ModelFileName)
+        print("Vertex Table: ", object1.VertexTable)
+        print("Face Table: ", object1.FaceTable)
 
         object1.transform.__init__()
 
