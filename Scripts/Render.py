@@ -1,5 +1,8 @@
-import Sy3D_SceneManager
+import SceneManager
 import pygame as pg
+
+def DrawTriangle(Vertex1: tuple, Vertex2: tuple, Vertex3: tuple, screen):
+    pg.draw.lines(screen, 'blue', True, [Vertex1, Vertex2, Vertex3, Vertex1], 3)
 
 def RenderObject(object1: SceneManager.GameObject, screen):
     ProjX, ProjY = object1.ProjectedX, object1.ProjectedY
@@ -8,7 +11,7 @@ def RenderObject(object1: SceneManager.GameObject, screen):
     while i<len(ProjX):
         if ProjX[i] != 'n' and ProjY[i] != 'n':
             print("Vertex Draw at: " + str(ProjX[i]), str(ProjY[i]))
-            pg.draw.circle(surface=screen, color="blue", center=[ProjX[i],ProjY[i]], radius=5, width=0)
+            pg.draw.circle(surface=screen, color="blue", center=[ProjX[i],ProjY[i]], radius=2, width=0)
         else:
             print("Vertex Past Near Plane")
         i += 1

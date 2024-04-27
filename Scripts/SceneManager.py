@@ -1,4 +1,4 @@
-from Scripts.Sy3D_MyUtils import *
+from Scripts.MyUtils import *
 
 class GameObject:
     def __init__(self):

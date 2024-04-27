@@ -1,4 +1,4 @@
-from Sy3D_SceneManager import *
+from SceneManager import *
 import keyboard
 
 #Moves the camera :O

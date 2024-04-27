@@ -1,5 +1,5 @@
 import math
-import Sy3D_SceneManager
+import SceneManager
 
 def __project(vertex: list, position: list, scale: list, Scene: SceneManager.Scene):
     x,y,z = vertex
@@ -37,6 +37,7 @@ def CalculateProjectedValues(GameObject: SceneManager.GameObject, Scene: SceneMa
     i = 0
     while i < len(GameObject.RotatedVertexTable):
         x, y, z = GameObject.RotatedVertexTable[i]
+
         print(Scene.camera.transform.position.z + Scene.camera.NearPlane)
         if z < Scene.camera.transform.position.z + Scene.camera.NearPlane:
             returnX, returnY = __project(vertex=[x,y,z], position=[xpos, ypos, zpos], scale=[xscale,yscale,zscale], Scene=Scene)
