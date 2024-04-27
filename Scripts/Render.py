@@ -1,34 +1,32 @@
 import SceneManager
 import pygame as pg
 
-def DrawTriangle(Vertex1: tuple, Vertex2: tuple, Vertex3: tuple, screen):
-    pg.draw.lines(screen, 'blue', True, [Vertex1, Vertex2, Vertex3, Vertex1], 3)
+def RenderFace(Faces: list, screen):
+
+    i = 0
+    while i < len(Faces):
+        x, y = Faces[i]
+        pg.draw.circle(surface=screen, color="blue", center=[x, y], radius=2, width=0)
+        i += 1
+
+    pg.draw.lines(screen, 'blue', True, Faces, 3)
 
 def RenderObject(object1: SceneManager.GameObject, screen):
     ProjX, ProjY = object1.ProjectedX, object1.ProjectedY
 
     i = 0
-    while i<len(ProjX):
-        if ProjX[i] != 'n' and ProjY[i] != 'n':
-            print("Vertex Draw at: " + str(ProjX[i]), str(ProjY[i]))
-            pg.draw.circle(surface=screen, color="blue", center=[ProjX[i],ProjY[i]], radius=2, width=0)
-        else:
-            print("Vertex Past Near Plane")
-        i += 1
-
-    i = 0
-    while i<len(object1.EdgeTable):
-        Edge1, Edge2 = object1.EdgeTable[i]
-        if ProjX[Edge1] != "n" and ProjY[Edge1] != "n" and ProjX[Edge2] != "n" and ProjY[Edge2] != "n":
-            pg.draw.line(surface=screen, color="blue", start_pos=[ProjX[Edge1], ProjY[Edge1]], end_pos=[ProjX[Edge2], ProjY[Edge2]], width=2)
-            print("Line drawn from:  " + str(ProjX[Edge1]) + ", " + str(ProjY[Edge1]) + " to:  " + str(ProjX[Edge2]) + ", " + str(ProjY[Edge2]))
-        else:
-            print("Edge Past Near Plane")
-        i += 1
-
-    i = 0
     while i<len(object1.FaceTable):
-        break
+
+        Vertices = object1.FaceTable[i]
+
+        index = 0
+        while index < len(Vertices) - 1:
+            pg.draw.line(surface=screen, color='blue', start_pos= [ProjX[Vertices[index] - 1], ProjY[Vertices[index] - 1]], end_pos=[ProjX[Vertices[index + 1] - 1], ProjY[Vertices[index + 1] - 1]], width=5)
+            index += 1
+        pg.draw.line(surface=screen, color='blue', start_pos=[ProjX[Vertices[index] - 1], ProjY[Vertices[index] - 1]],
+                     end_pos=[ProjX[Vertices[0] - 1], ProjY[Vertices[0] - 1]], width=5)
+
+        i += 1
 
 def RenderScene(Scene: SceneManager.Scene, screen):
     i = 0

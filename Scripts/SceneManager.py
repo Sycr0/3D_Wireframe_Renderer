@@ -8,7 +8,7 @@ class GameObject:
         self.VertexTable = []
         self.RotatedVertexTable = []
 
-        self.EdgeTable = [[tuple]]
+        self.FaceTable = [[3]]
 
         self.FaceTable = []
 
@@ -36,7 +36,7 @@ class Scene:
         self.camera.__init__()
         print("Scene Initilialised")
 
-    def NewGameObject(self, Name: str, VertexTable: list, EdgeTable: list):
+    def NewGameObject(self, Name: str, VertexTable: list, FaceTable: list):
         object1 = GameObject.__new__(GameObject)
         self.GameObjects[Name] = object1
         object1.__init__()
@@ -44,7 +44,7 @@ class Scene:
         object1.Name = Name
 
         object1.VertexTable = VertexTable
-        object1.EdgeTable = EdgeTable
+        object1.FaceTable = FaceTable
 
         object1.transform.__init__()
 
